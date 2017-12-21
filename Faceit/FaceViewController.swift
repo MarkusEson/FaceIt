@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController
+class FaceViewController: UIViewController
 {
 
     @IBOutlet weak var faceView: FaceView!
@@ -73,8 +73,10 @@ class ViewController: UIViewController
             faceView?.eyesOpen = false
         case .squinting:
             faceView?.eyesOpen = false
+        default:
+            break
         }
-        faceView.mouthCurvature = mouthCurvatures[expression.mouth] ?? 0.0
+        faceView?.mouthCurvature = mouthCurvatures[expression.mouth] ?? 0.0
     }
     
     private let mouthCurvatures =

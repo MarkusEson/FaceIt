@@ -32,7 +32,6 @@ class FaceView: UIView
         {
         case .changed,.ended:
             scale *= pinchRecognizer.scale
-            print("\(scale)")
             pinchRecognizer.scale = 1
         default:
             break
