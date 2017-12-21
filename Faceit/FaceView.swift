@@ -11,19 +11,33 @@ import UIKit
 class FaceView: UIView
 {
     @IBInspectable
-    var scale: CGFloat = 0.9
+    var scale: CGFloat = 0.9 { didSet{ setNeedsDisplay() } }
     
     @IBInspectable
-    var eyesOpen: Bool = false
+    var eyesOpen: Bool = false { didSet{ setNeedsDisplay() } }
     
     @IBInspectable
-    var mouthCurvature: Double = 0.7 // 1.0 is smile and -1.0 is frown
+    var mouthCurvature: Double = 0.7 { didSet{ setNeedsDisplay() } }// 1.0 is smile and -1.0 is frown
     
     @IBInspectable
-    var lineWidth: CGFloat = 5.0
+    var lineWidth: CGFloat = 5.0 { didSet{ setNeedsDisplay() } }
     
     @IBInspectable
-    var color: UIColor = UIColor.red
+    var color: UIColor = UIColor.red { didSet{ setNeedsDisplay() } }
+    
+    
+    @objc func changeScale(byReactingTo pinchRecognizer: UIPinchGestureRecognizer)
+    {
+        switch pinchRecognizer.state
+        {
+        case .changed,.ended:
+            scale *= pinchRecognizer.scale
+            print("\(scale)")
+            pinchRecognizer.scale = 1
+        default:
+            break
+        }
+    }
     
     
     private var skullRadius: CGFloat  {
@@ -52,7 +66,7 @@ class FaceView: UIView
         let path: UIBezierPath
         
         if eyesOpen {
-             path = UIBezierPath(arcCenter: eyeCenter, radius: eyeRadius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+            path = UIBezierPath(arcCenter: eyeCenter, radius: eyeRadius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
         } else {
             path = UIBezierPath()
             path.move(to: CGPoint(x: eyeCenter.x - eyeRadius, y: eyeCenter.y))
